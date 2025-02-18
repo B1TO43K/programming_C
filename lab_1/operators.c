@@ -4,7 +4,7 @@
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
 int main() {
-	int sum, raz, proi, del, ost_del, plus1, minus1;
+	int sum, raz, proi, del, ost_del;
 	int a, b;
 	printf("Vvedite a \n");
 	scanf("%d", &a);
