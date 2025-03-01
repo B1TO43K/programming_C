@@ -1,76 +1,44 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <stdio.h> 
 
-/*ЗАДАНИЕ 2
-	Объявить массив данных типа double размером 3 на 3.
-	Ввести с консоли его значения, 
-	вывести на консоль сумму его элементов, расположенных на главной диаго-нали и сумму элементов, расположенных на побочной диагонали.
-	Объявить массив данных типа int размером 2 на 2. Ввести с консоли его значе-ния, вывести на консоль квадрат данной матрицы.
+int main() { 
 
- run this program using the console pauser or add your own getch, system("pause") or input loop */
+  double a[3][3], sum1 = 0, sum2 = 0; // - a[3][3]: массив double 3x3 / sum1/sum2: сумма главной/побочной диагонали (изначально 0)
+                                     
+  int i, j;                       // Объявляем переменные для циклов
 
-int main(int argc, char *argv[]) {
-	double mat[3][3], sumG, sumP;
-	int i, j, p, matr[2][2];
-	printf("Vvedite 1i element matrici\n");
-	scanf("%lf", &mat[0][0]);
-	
-	printf("Vvedite 2i element matrici\n");
-	scanf("%lf", &mat[0][1]);
-	
-	printf("Vvedite 3i element matrici\n");
-	scanf("%lf", &mat[0][2]);
-	
-	printf("Vvedite 4i element matrici\n");
-	scanf("%lf", &mat[1][0]);
-	
-	printf("Vvedite 5i element matrici\n");
-	scanf("%lf", &mat[1][1]);
-	
-	printf("Vvedite 6i element matrici\n");
-	scanf("%lf", &mat[1][2]);
-	
-	printf("Vvedite 7i element matrici\n");
-	scanf("%lf", &mat[2][0]);
-	
-	printf("Vvedite 8i element matrici\n");
-	scanf("%lf", &mat[2][1]);
-	
-	printf("Vvedite 9i element matrici\n");
-	scanf("%lf", &mat[2][2]);
+  printf("Enter 9 numbers for the array double:\n"); 
+  for (i = 0; i < 3; i++)                      // Цикл по строкам (0, 1, 2)
+    for (j = 0; j < 3; j++)                    // Цикл по столбцам (0, 1, 2)
+      scanf("%lf", &a[i][j]);                   // Считываем double и сохраняем в a[i][j]
 
-	printf("Vasha matrica imeet sleduihii vid:\n");
-    for (i = 0; i < 3; i++) {
-	    for (j = 0; j < 3; j++) {
-            printf("%.2lf ", mat[i][j]);
-        }
-    printf("\n");
+  for (i = 0; i < 3; i++) {                     // Цикл по главной и побочной диагоналям
+    sum1 += a[i][i];                              // Считаем сумму главной диагонали (a[0][0] + a[1][1] + a[2][2])
+    sum2 += a[i][2 - i];                          // Считаем сумму побочной диагонали (a[0][2] + a[1][1] + a[2][0])
+  }
+
+  printf("The sum of the main diagonal: %.2lf\n", sum1);   // Выводим сумму главной диагонали
+  printf("The sum of the side diagonal: %.2lf\n", sum2);   // Выводим сумму побочной диагонали
+
+  int b[2][2], c[2][2];            // Объявляем:
+                                      // - b[2][2]: массив int 2x2 (исходная матрица)
+                                      // - c[2][2]: массив int 2x2 (квадрат матрицы)
+  printf("\nEnter 4 numbers for the array int:\n");
+  for (i = 0; i < 2; i++)                      // Цикл по строкам (0, 1)
+    for (j = 0; j < 2; j++)                    // Цикл по столбцам (0, 1)
+      scanf("%d", &b[i][j]);                   // Считываем int и сохраняем в b[i][j]
+
+  c[0][0] = b[0][0] * b[0][0] + b[0][1] * b[1][0]; // Вычисляем элемент c[0][0] квадрата матрицы
+  c[0][1] = b[0][0] * b[0][1] + b[0][1] * b[1][1]; // Вычисляем элемент c[0][1] квадрата матрицы
+  c[1][0] = b[1][0] * b[0][0] + b[1][1] * b[1][0]; // Вычисляем элемент c[1][0] квадрата матрицы
+  c[1][1] = b[1][0] * b[0][1] + b[1][1] * b[1][1]; // Вычисляем элемент c[1][1] квадрата матрицы
+
+  printf("\nThe square of the matrix:\n");       
+  for (i = 0; i < 2; i++) {                     // Цикл по строкам результирующей матрицы
+    for (j = 0; j < 2; j++) {                   // Цикл по столбцам результирующей матрицы
+      printf("%d ", c[i][j]);                   // Выводим элемент c[i][j]
     }
+    printf("\n");                             
+  }
 
-
-	sumG = mat[0][0] + mat[1][1] + mat[2][2];
-	printf("\nSumma glavnoi diagonali = %.2lf", sumG);
-	
-	sumP = mat[0][2] + mat[1][1] + mat[2][0];
-	printf("\nSumma pobochnoi diagonali = %.2lf", sumP);
-	
-
-	printf("\nVvedite element[0][0] matrici\n");
-	scanf("%d", &matr[0][0]);
-	printf("Vvedite  element[0][1] matrici\n");
-	scanf("%d", &matr[0][1]);
-	printf("Vvedite  element[1][0] matrici\n");
-	scanf("%d", &matr[1][0]);
-	printf("Vvedite  element[1][1] matrici\n");
-	scanf("%d", &matr[1][1]);
-	
-	printf("Kvadrat vashei matrici imeet sleduihii vid:\n");
-	for (i = 0; i < 2; i++){
-		for (j = 0; j < 2; j++){
-			p = matr[i][j] * matr[i][j];
-			printf("%d ", p);
-        }
-    	printf("\n");
-    }
-	return 0;
+  return 0; 
 }
