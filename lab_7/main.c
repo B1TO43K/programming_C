@@ -1,51 +1,76 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-typedef struct {
-    char name[50];
-    char surname[50];
-    int birthYear;
-} human;
+struct Hum {
+    char a[100];
+    char b[100];
+    char c[100];
+    int d;
+};
 
 int main() {
-    human people1[4];
-    human people2[4];
-    int i, j;
-    human temp;
+    FILE *fp;
+    fp = fopen("text.txt", "r");
 
-    printf("vvedite people1:\n");
-    for (i = 0; i < 4; i++) {
-        printf("chelovek %d:\n", i + 1);
-        printf("name: ");
-        scanf("%s", people1[i].name); 
-        printf("surname: ");
-        scanf("%s", people1[i].surname); 
-        printf("date bith: ");
-        scanf("%d", &people1[i].birthYear);
-        printf("\n");
+    if (fp == NULL) {
+        printf("Error opening file!\n");
+        return 1;
     }
 
-    for (i = 0; i < 4; i++) {
-        strcpy(people2[i].name, people1[i].name);
-        strcpy(people2[i].surname, people1[i].surname);
-        people2[i].birthYear = people1[i].birthYear;
-    }
+    int kolvo = 0;
+    char stroka[256];
 
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3 - i; j++) {
-            if (people2[j].birthYear > people2[j + 1].birthYear) {
-                temp = people2[j];
-                people2[j] = people2[j + 1];
-                people2[j + 1] = temp;
-            }
+
+    while (fgets(stroka, sizeof(stroka), fp)) {
+        kolvo++;
+    }
+    rewind(fp);
+
+    struct Hum chel1[kolvo];
+    struct Hum chel2[kolvo];
+
+    int i;
+    for (i = 0; i < kolvo; i++) {
+        if (fgets(stroka, sizeof(stroka), fp) != NULL) {
+            sscanf(stroka, "%s %s %s %d", chel1[i].a, chel1[i].b, chel1[i].c, &chel1[i].d);
         }
     }
 
-    printf("\nOtsortirovanniy massiv people2 po date:\n");
-    for (i = 0; i < 4; i++) {
-        printf("  %s %s (%d)\n", people2[i].name, people2[i].surname, people2[i].birthYear);
+    fclose(fp);
+
+    for (i = 0; i < kolvo; i++) {
+        printf("fName: %s\n", chel1[i].a);
+        printf("Name: %s\n", chel1[i].b);
+        printf("Middle name: %s\n", chel1[i].c);
+        printf("Birth: %d\n", chel1[i].d);
+        printf("\n");
+        chel2[i] = chel1[i];
     }
+
+    int tmp;
+    int k, j, g;
+
+    for(k = 0; k < kolvo; k++)
+        for(j=0; j < kolvo -1; j++)
+           {
+              if (chel2[j].d>chel2[j+1].d){
+                     tmp = chel2[j].d;
+                     chel2[j].d = chel2[j+1].d;
+                     chel2[j+1].d = tmp;
+                  }
+           }
+
+           printf("RESULT: \n");
+
+
+        for (i = 0; i < kolvo; i++) {
+            printf("fName: %s\n", chel2[i].a);
+            printf("Name: %s\n", chel2[i].b);
+            printf("Middle name: %s\n", chel2[i].c);
+            printf("Birth: %d\n", chel2[i].d);
+            printf("\n");
+        }
 
     return 0;
 }
-
