@@ -1,26 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
+//РЎРёРіРЅР°Р»С‹ вЂ” СЌС‚Рѕ РјРµС…Р°РЅРёР·Рј РѕРїРµСЂР°С†РёРѕРЅРЅРѕР№ СЃРёСЃС‚РµРјС‹ РґР»СЏ СѓРІРµРґРѕРјР»РµРЅРёСЏ РїСЂРѕРіСЂР°РјРјС‹ Рѕ РІР°Р¶РЅС‹С… СЃРѕР±С‹С‚РёСЏС… 
+//(РЅР°РїСЂРёРјРµСЂ, Р°РІР°СЂРёР№РЅРѕРµ Р·Р°РІРµСЂС€РµРЅРёРµ, РїСЂРµСЂС‹РІР°РЅРёРµ СЃ РєР»Р°РІРёР°С‚СѓСЂС‹ Рё С‚. Рґ.).
 void signal_processing(int signal) {
     switch(signal) {
         case SIGABRT:   
 			printf("Received SIGABRT signal\n");  
-			break;  //Аварийное завершение
+			break;  //РђРІР°СЂРёР№РЅРѕРµ Р·Р°РІРµСЂС€РµРЅРёРµ
         case SIGFPE:   
 			printf("Received SIGFPE signal\n");    
-			break;  //Ошибка арифметической операции (деление на ноль)
+			break;  //РћС€РёР±РєР° Р°СЂРёС„РјРµС‚РёС‡РµСЃРєРѕР№ РѕРїРµСЂР°С†РёРё (РґРµР»РµРЅРёРµ РЅР° РЅРѕР»СЊ)
         case SIGILL:   
 			printf("Received SIGILL signal\n");   
-			break;  //Недопустимая инструкция
+			break;  //РќРµРґРѕРїСѓСЃС‚РёРјР°СЏ РёРЅСЃС‚СЂСѓРєС†РёСЏ
         case SIGINT:   
 			printf("Received SIGINT signal\n");   
-			break;  //Прерывание с клавиатуры (Ctrl+C)
+			break;  //РџСЂРµСЂС‹РІР°РЅРёРµ СЃ РєР»Р°РІРёР°С‚СѓСЂС‹ (Ctrl+C)
         case SIGSEGV:   
 			printf("Received SIGSEGV signal\n");   
-			break;  //Нарушение сегментации (ошибка доступа к памяти)
+			break;  //РќР°СЂСѓС€РµРЅРёРµ СЃРµРіРјРµРЅС‚Р°С†РёРё (РѕС€РёР±РєР° РґРѕСЃС‚СѓРїР° Рє РїР°РјСЏС‚Рё)
         case SIGTERM:   
 			printf("Received SIGTERM signal\n");   
-			break;  //Запрос на завершение программы
+			break;  //Р—Р°РїСЂРѕСЃ РЅР° Р·Р°РІРµСЂС€РµРЅРёРµ РїСЂРѕРіСЂР°РјРјС‹
         default:     
 			printf("Received unknown signal\n");   
 			break;
@@ -61,4 +63,3 @@ int main() {
     }
     return 0;
 }
-
