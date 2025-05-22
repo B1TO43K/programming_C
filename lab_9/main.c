@@ -3,7 +3,20 @@
 #include <string.h>
 #include <ctype.h>
 
-// Функция для вычисления результата операции
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ СѓРґР°Р»РµРЅРёСЏ РІСЃРµС… РїСЂРѕР±РµР»РѕРІ РёР· СЃС‚СЂРѕРєРё
+void removeSpaces(char* str) {
+    char* i = str; // РЈРєР°Р·Р°С‚РµР»СЊ РґР»СЏ Р·Р°РїРёСЃРё (Р±РµР· РїСЂРѕР±РµР»РѕРІ)
+    char* j = str;// РЈРєР°Р·Р°С‚РµР»СЊ РґР»СЏ С‡С‚РµРЅРёСЏ (РёСЃС…РѕРґРЅР°СЏ СЃС‚СЂРѕРєР°)
+    while (*j != '\0') { // РџРѕРєР° РЅРµ РєРѕРЅРµС† СЃС‚СЂРѕРєРё...
+        *i = *j++;// РљРѕРїРёСЂСѓРµРј СЃРёРјРІРѕР» РёР· `j` РІ `i` Рё РґРІРёРіР°РµРј `j` РІРїРµСЂС‘Рґ
+        if (*i != ' ') {// Р•СЃР»Рё СЃРєРѕРїРёСЂРѕРІР°РЅРЅС‹Р№ СЃРёРјРІРѕР» РќР• РїСЂРѕР±РµР»...
+            i++;// Р”РІРёРіР°РµРј `i` РІРїРµСЂС‘Рґ (С‡С‚РѕР±С‹ СЃРѕС…СЂР°РЅРёС‚СЊ СЃРёРјРІРѕР»)
+        }
+    }
+    *i = '\0';// Р—Р°РІРµСЂС€Р°РµРј СЃС‚СЂРѕРєСѓ 
+}
+
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ РІС‹С‡РёСЃР»РµРЅРёСЏ СЂРµР·СѓР»СЊС‚Р°С‚Р° РѕРїРµСЂР°С†РёРё
 double calculate(double operand1, char operator, double operand2) {
     switch (operator) {
         case '+':
@@ -11,54 +24,52 @@ double calculate(double operand1, char operator, double operand2) {
         case '-':
             return operand1 - operand2;
         default:
-            printf("oshibka - neizvestniy operator '%c'\n", operator);
-            exit(1); // Завершаем программу с кодом ошибки
+            printf("Error: unknown operator '%c'\n", operator);
+            exit(1);
     }
 }
 
 int main() {
-    char expression[256]; // Буфер для ввода выражения
-    char *token;            // Указатель на токен
-    char *rest;             // Указатель для strtok_r 
-    double result = 0.0;    // Результат вычисления
-    double operand;          // Текущий операнд
-    char operator = '+';     // Текущий оператор (по умолчанию "+", для обработки первого числа)
-    int first_operand = 1;   // Флаг, показывающий, что это первый операнд
+    char expression[256];
+    printf("Enter expression (-123.5 + 4 - 456+56): ");
+    fgets(expression, sizeof(expression), stdin);
+    
+    // РЈРґР°Р»СЏРµРј СЃРёРјРІРѕР» РЅРѕРІРѕР№ СЃС‚СЂРѕРєРё Рё РІСЃРµ РїСЂРѕР±РµР»С‹
+    expression[strcspn(expression, "\n")] = '\0';
+    removeSpaces(expression);
 
-    printf("enter virozgenie (naprimer, -123.5 + 4 - 456+56): ");
-    fgets(expression, sizeof(expression), stdin); // Читаем выражение с клавиатуры
+    double result = 0.0;
+    char operator = '+';
+    char* ptr = expression;
+    
+    // РћР±СЂР°Р±Р°С‚С‹РІР°РµРј РїРµСЂРІС‹Р№ РѕРїРµСЂР°РЅРґ РѕС‚РґРµР»СЊРЅРѕ (РјРѕР¶РµС‚ Р±С‹С‚СЊ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹Рј)
+    char* end;
+    double num = strtod(ptr, &end);
+    if (ptr == end) {
+        printf("Error: invalid expression\n");
+        return 1;
+    }
+    result = num;
+    ptr = end;
 
-    // Удаляем символ новой строки, если он есть
-    expression[strcspn(expression, "\n")] = 0;
-
-    // Разбираем строку на токены
-    token = strtok_r(expression, " ", &rest); // Разбиваем по пробелам
-
-    while (token != NULL) {
-        // Пытаемся преобразовать токен в число
-        if (isdigit(token[0]) || (token[0] == '-' && isdigit(token[1])) || token[0] == '.') {
-            operand = strtod(token, NULL); // Преобразуем строку в double
-
-            if (first_operand) {
-                result = operand;
-                first_operand = 0;
-            } else {
-                result = calculate(result, operator, operand); // Вычисляем результат
-            }
-
-        } else if (strlen(token) == 1 && (token[0] == '+' || token[0] == '-')) {
-            // Если токен - оператор
-            operator = token[0];
-        } else {
-            printf("oshibka - nevernoe virazgenie.\n");
+    while (*ptr != '\0') {
+        // РџРѕР»СѓС‡Р°РµРј РѕРїРµСЂР°С‚РѕСЂ
+        if (*ptr != '+' && *ptr != '-') {
+            printf("Error: expected operator, got '%c'\n", *ptr);
             return 1;
         }
-
-        token = strtok_r(NULL, " ", &rest); // Получаем следующий токен
+        operator = *ptr++;
+        
+        // РџРѕР»СѓС‡Р°РµРј СЃР»РµРґСѓСЋС‰РёР№ РѕРїРµСЂР°РЅРґ
+        num = strtod(ptr, &end);
+        if (ptr == end) {
+            printf("Error: expected number after operator\n");
+            return 1;
+        }
+        result = calculate(result, operator, num);
+        ptr = end;
     }
 
-    printf("Result: %lf\n", result);
-
+    printf("Result: %g\n", result);
     return 0;
 }
-
