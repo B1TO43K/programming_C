@@ -24,7 +24,7 @@ void generate_number_file(int count) {
 // Функция для обработки чисел и создания выходного файла
 void process_numbers(int count) {
     FILE *input = fopen("input.txt", "r");
-    FILE *output = fopen("output.txt", "w"); // Изменили имя файла
+    FILE *output = fopen("output.txt", "w"); 
     
     int value;
     for (row = 0; row < count; row++) {
