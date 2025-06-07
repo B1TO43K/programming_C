@@ -9,7 +9,7 @@ int row, col;
 
 // Функция для создания файла со случайными числами
 void generate_number_file(int count) {
-    FILE *file = fopen("input.txt", "w"); // Изменили имя файла
+    FILE *file = fopen("input.txt", "w"); 
     
     // Инициализируем генератор случайных чисел
     srand(time(0));
